@@ -7,14 +7,33 @@
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
         Title="1C Services Control" Height="350" Width="568.75">
-    <Grid>
-        <TabControl Width="517" HorizontalContentAlignment="Center" HorizontalAlignment="Left" TabStripPlacement="Left">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="0,0,2,6">
+        <TabControl Width="549" HorizontalContentAlignment="Center" HorizontalAlignment="Left" TabStripPlacement="Left" Margin="0,40,0,10">
             <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
+                <Controls:ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </TabItem>
             <TabItem Header="TabItem">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
+        <Button
+        Style="{DynamicResource MetroCircleButtonStyle}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40">
+            <Rectangle Width="20"
+                Height="20"
+                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
     </Grid>
 </Controls:MetroWindow>
