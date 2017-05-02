@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
-        Title="1C Services Control" Height="350" Width="568.75">
+        Title="1C Services Control" Height="350" Width="568.75" Loaded="MetroWindow_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,18 +14,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-
     <Grid Margin="0,0,2,6">
-        <TabControl Width="549" HorizontalContentAlignment="Center" HorizontalAlignment="Left" TabStripPlacement="Left" Margin="0,40,0,10">
-            <TabItem Header="TabItem">
-                <Controls:ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
-        </TabControl>
         <Button
-        Style="{DynamicResource MetroCircleButtonStyle}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40">
+        Style="{DynamicResource MetroCircleButtonStyle}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" Click="Button_Click">
             <Rectangle Width="20"
                 Height="20"
                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
@@ -34,6 +25,19 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
-
+        <TabControl x:Name="MainTabControl" HorizontalContentAlignment="Center" TabStripPlacement="Left" Margin="0,40,10,10">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>                            
+                <TextBlock Text="{Binding name}"/>
+            </TextBlock>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Controls:ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
     </Grid>
 </Controls:MetroWindow>
