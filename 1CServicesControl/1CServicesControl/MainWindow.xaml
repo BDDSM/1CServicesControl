@@ -6,8 +6,15 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
-        Title="1C Services Control" Height="350" Width="525">
+        Title="1C Services Control" Height="350" Width="568.75">
     <Grid>
-        
+        <TabControl Width="517" HorizontalContentAlignment="Center" HorizontalAlignment="Left" TabStripPlacement="Left">
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Controls:MetroWindow>
