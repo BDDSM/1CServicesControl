@@ -23,14 +23,12 @@ namespace _1CServicesControl
     {
 
         public List<Server> listSrv;
-        public int ini;
 
         public MainWindow()
         {
             InitializeComponent();
 
             listSrv = new List<Server>();
-            ini = 3;
         }
 
         public class Customer
@@ -42,20 +40,23 @@ namespace _1CServicesControl
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            listSrv.Add(new Server("Server1", "1123/12..123.", false, "", ""));
-            listSrv.Add(new Server("Server2", "1123/12..123.", false, "", ""));
-            
-
-
             MainTabControl.ItemsSource = listSrv;
             MainTabControl.SelectedIndex = 0;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ini++;
-            listSrv.Add(new Server("Server" + ini.ToString(), "1123/12..123.", false, "", ""));
+            SrvForm newSrvForm = new SrvForm();
+            newSrvForm.Show();
+            
+            newSrvForm.Closed += newSrvForm_Closed;
+
             MainTabControl.Items.Refresh();
+        }
+
+        private void newSrvForm_Closed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 

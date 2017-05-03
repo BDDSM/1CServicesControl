@@ -35,7 +35,10 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <Controls:ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid>
+                        <TextBlock Text="{Binding address}" />
+                        <Controls:ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
