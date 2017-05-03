@@ -46,7 +46,7 @@ namespace _1CServicesControl
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SrvForm newSrvForm = new SrvForm();
+            SrvForm newSrvForm =  new SrvForm();
             newSrvForm.Show();
             
             newSrvForm.Closed += newSrvForm_Closed;

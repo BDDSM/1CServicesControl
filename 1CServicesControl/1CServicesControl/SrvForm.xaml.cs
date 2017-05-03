@@ -61,6 +61,16 @@ namespace _1CServicesControl
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            if (boolIsDomainAuth.IsChecked != true)
+            {
+                if (textLoginSrv.Text == "" || textPassSrv.Text == "")
+                {
+
+                    MessageBox.Show("Заполните значения логин, пароль.");
+                    return;
+                }
+            }
+
             saveData = true;
             this.Close();
         }
