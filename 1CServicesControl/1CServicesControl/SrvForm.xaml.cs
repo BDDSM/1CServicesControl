@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using MahApps.Metro.Controls.Dialogs;
+
 
 namespace _1CServicesControl
 {
@@ -30,7 +26,6 @@ namespace _1CServicesControl
 
             textNameSrv.TextChanged += TextChanged;
             textAddressSrv.TextChanged += TextChanged;
-            textLoginSrv.TextChanged += TextChanged;
             textLoginSrv.TextChanged += TextChanged;
 
         }
@@ -54,19 +49,24 @@ namespace _1CServicesControl
             Modify();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            if(modify)
+            {
+
+            }
+
             this.Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (boolIsDomainAuth.IsChecked != true)
             {
-                if (textLoginSrv.Text == "" || textPassSrv.Text == "")
+                if (textLoginSrv.Text == "" || passBoxSrv.Password == "")
                 {
-
-                    MessageBox.Show("Заполните значения логин, пароль.");
+                    await this.ShowMessageAsync("Ошибка сохранения сервера", "Значение логин и пароль должны быть заполнены");
                     return;
                 }
             }
@@ -81,5 +81,9 @@ namespace _1CServicesControl
             this.Title = "Новый сервер *";
         }
 
+        private void passBoxSrv_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            Modify();
+        }
     }
 }

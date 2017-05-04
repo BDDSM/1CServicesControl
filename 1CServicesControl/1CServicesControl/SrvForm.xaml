@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
-        Title="Новый сервер" Height="244.602" Width="397.159">
+        Title="Новый сервер" Height="248.771" Width="496.529">
     <Grid>
         <Button Content="Сохранить" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click_1"/>
         <Button Content="Закрыть" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click"/>
@@ -18,8 +18,8 @@
         <Grid x:Name="AuthSettingsGrid">
             <Label Content="Пароль :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,126,0,0"/>
             <Label Content="Логин :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,95,0,0"/>
-            <TextBox x:Name="textPassSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,127,10,0"/>
             <TextBox x:Name="textLoginSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,96,10,0"/>
+            <PasswordBox x:Name="passBoxSrv" HorizontalAlignment="Left" Margin="72,127,0,0" VerticalAlignment="Top" Width="407" PasswordChanged="passBoxSrv_PasswordChanged"/>
         </Grid>
 
     </Grid>
