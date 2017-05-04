@@ -11,15 +11,15 @@
         <Button Content="Сохранить" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click_1"/>
         <Button Content="Закрыть" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click"/>
         <Label Content="Наименование сервера :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textNameSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,10,10,0"/>
+        <TextBox x:Name="NameSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,10,10,0"/>
         <Label Content="Адрес сервера :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,0,0" Width="147"/>
-        <TextBox x:Name="textAddressSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,42,10,0"/>
-        <CheckBox x:Name="boolIsDomainAuth" Content="Аутентификация операционной системы" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="272" Click="boolIsDomainAuth_Click"/>
+        <TextBox x:Name="AddressSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,42,10,0"/>
+        <CheckBox x:Name="IsDomainAuth" Content="Аутентификация операционной системы" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="272" Click="boolIsDomainAuth_Click"/>
         <Grid x:Name="AuthSettingsGrid">
             <Label Content="Пароль :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,126,0,0"/>
             <Label Content="Логин :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,95,0,0"/>
-            <TextBox x:Name="textLoginSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,96,10,0"/>
-            <PasswordBox x:Name="passBoxSrv" HorizontalAlignment="Left" Margin="72,127,0,0" VerticalAlignment="Top" Width="407" PasswordChanged="passBoxSrv_PasswordChanged"/>
+            <TextBox x:Name="LoginSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,96,10,0"/>
+            <PasswordBox x:Name="PassSrv" HorizontalAlignment="Left" Margin="72,127,0,0" VerticalAlignment="Top" Width="407"/>
         </Grid>
 
     </Grid>

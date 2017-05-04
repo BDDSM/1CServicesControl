@@ -16,9 +16,7 @@ using System.Windows.Shapes;
 
 namespace _1CServicesControl
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : MetroWindow
     {
 
@@ -50,13 +48,25 @@ namespace _1CServicesControl
             newSrvForm.Show();
             
             newSrvForm.Closed += newSrvForm_Closed;
-
-            MainTabControl.Items.Refresh();
         }
 
         private void newSrvForm_Closed(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SrvForm srvForm = (SrvForm)sender;
+            
+            if (srvForm.saveData)
+            {
+                var name = srvForm.NameSrv.Text;
+                var adress = srvForm.AddressSrv.Text;
+                var isDomainAuth = (bool)srvForm.IsDomainAuth.IsChecked;
+                var login = srvForm.LoginSrv.Text;
+                var pass = srvForm.LoginSrv.Text;
+
+                listSrv.Add(new Server(name, adress, isDomainAuth, login, pass));
+
+                MainTabControl.Items.Refresh();
+            }
+            
         }
     }
 
