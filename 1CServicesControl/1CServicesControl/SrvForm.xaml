@@ -6,12 +6,12 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
-        Title="Новый сервер" Height="248.771" Width="496.529">
+        Title="Новый сервер" Height="248.771" Width="496.529" Loaded="MetroWindow_Loaded">
     <Grid>
-        <Button Content="Сохранить" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click_1"/>
+        <Button Content="Сохранить" IsDefault="True" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click_1"/>
         <Button Content="Закрыть" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click"/>
         <Label Content="Наименование сервера :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="NameSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,10,10,0"/>
+        <TextBox x:Name="NameSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,10,10,0" Cursor=""/>
         <Label Content="Адрес сервера :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,0,0" Width="147"/>
         <TextBox x:Name="AddressSrv" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,42,10,0"/>
         <CheckBox x:Name="IsDomainAuth" Content="Аутентификация операционной системы" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="272" Click="boolIsDomainAuth_Click"/>

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -51,7 +53,7 @@ namespace _1CServicesControl
             newSrvForm.Closed += newSrvForm_Closed;
         }
 
-        private void newSrvForm_Closed(object sender, EventArgs e)
+        public void newSrvForm_Closed(object sender, EventArgs e)
         {
             SrvForm srvForm = (SrvForm)sender;
             
@@ -67,15 +69,21 @@ namespace _1CServicesControl
 
                 listSrv.Add(srv);
 
+                srv.isActiveProgressRing = true;
+                srv.servicesVisibility = Visibility.Hidden;
+                srv.isEnabaleComandButon = true;
+
                 MainTabControl.Items.Refresh();
 
-                getServices(srv);
+                Task.Run(() => getServices(srv));
             }
             
         }
 
-        private void getServices(Server srv)
+        public void getServices(Server srv)
         {
+            //await Task.Delay(1000);
+
             ConnectionOptions options = new ConnectionOptions();
             options.Impersonation = ImpersonationLevel.Impersonate;
 
@@ -86,7 +94,21 @@ namespace _1CServicesControl
             }
 
             ManagementScope scope = new ManagementScope("\\\\" + srv.address + "\\root\\cimv2", options);
-            scope.Connect();
+
+            try
+            {
+                scope.Connect();
+            } catch (Exception ex)
+            {
+                Dispatcher.BeginInvoke(new ThreadStart(delegate  { this.ShowMessageAsync("Ошибка подключения к серверу: " + srv.name, ex.Message); }));
+                
+
+                srv.isActiveProgressRing = false;
+                srv.isEnabaleComandButon = false;
+
+                return;
+            }
+            
 
             ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_Service WHERE PathName LIKE \"%ragent.exe%\"");
 
@@ -98,6 +120,9 @@ namespace _1CServicesControl
             {
                 srv.services.Add(new service1C(sc));
             }
+           
+            srv.servicesVisibility = Visibility.Visible;
+            srv.isActiveProgressRing = false;
 
         }
     }
@@ -112,6 +137,9 @@ namespace _1CServicesControl
         public String pass { get; set; }
         public Boolean isDomainAuth { get; set; }
         public List<service1C> services { get; set; }
+        public Boolean isActiveProgressRing { get; set; }
+        public Visibility servicesVisibility { get; set; }
+        public bool isEnabaleComandButon {get; set;}
 
         public Server(String newName, String newAddress, Boolean newIsDomainAuth, String newLogin, String newPass)
         {

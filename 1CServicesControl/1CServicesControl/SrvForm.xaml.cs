@@ -42,6 +42,12 @@ namespace _1CServicesControl
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            if (NameSrv.Text == "" || AddressSrv.Text == "")
+            {
+                await this.ShowMessageAsync("Ошибка сохранения сервера", "Значение наименование и адрес сервера должны быть заполнены");
+                return;
+            }
+
             if (IsDomainAuth.IsChecked != true)
             {
                 if (LoginSrv.Text == "" || PassSrv.Password == "")
@@ -53,6 +59,11 @@ namespace _1CServicesControl
 
             saveData = true;
             this.Close();
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            NameSrv.Focus();
         }
     }
 }
