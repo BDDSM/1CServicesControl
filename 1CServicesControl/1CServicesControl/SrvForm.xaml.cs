@@ -7,6 +7,7 @@ using System.Windows;
 using MahApps.Metro.Controls;
 using System.Windows.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using _1CServicesControl.Models;
 
 
 namespace _1CServicesControl
@@ -16,10 +17,41 @@ namespace _1CServicesControl
     {
 
         public bool saveData = false;
+        public bool deleteThisServer = false;
+        public Server srv;
+        public Server oldSrv;
 
         public SrvForm()
         {
             InitializeComponent();
+            
+            if (((MainWindow)Application.Current.MainWindow).RootTabControl.SelectedIndex == 1)
+            {
+                srvType.IsChecked = true;
+            }
+
+            Delete.Visibility = Visibility.Hidden;
+
+            srv = new Server();
+            this.DataContext = this.srv;
+            this.Title = "Новый сервер";
+        }
+
+        public SrvForm(Server srv)
+        {
+            InitializeComponent();
+
+            if (((MainWindow)Application.Current.MainWindow).RootTabControl.SelectedIndex == 1)
+            {
+                srvType.IsChecked = true;
+            }
+
+            this.srv = new Server(srv);
+            this.DataContext = this.srv;
+            this.oldSrv = srv;
+
+            PassSrv.Password = "..!..";
+            srvType.IsEnabled = false;
         }
 
         private void boolIsDomainAuth_Click(object sender, RoutedEventArgs e)
@@ -65,5 +97,32 @@ namespace _1CServicesControl
         {
             NameSrv.Focus();
         }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            SimpleForm form = new SimpleForm();
+            form.Title = "Удаление сервера";
+            form.Text.Content = "Удалить сервер \"" + srv.name + "\" ?";
+
+            form.ShowDialog();
+
+            if (!form.result)
+            {
+                return;
+            }
+
+            if ((Boolean)srvType.IsChecked)
+            {
+                ((_1CServicesControl.MainWindow)Application.Current.MainWindow).config.DeleteServer((LinuxServer)this.oldSrv);
+            }
+            else
+            {
+                ((_1CServicesControl.MainWindow)Application.Current.MainWindow).config.DeleteServer((WindowsServer)this.oldSrv);
+            }
+
+            this.Close();
+       
+        }
+
     }
 }

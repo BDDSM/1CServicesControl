@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
-        Title="1C Services Control" Height="480" Width="890.75" Loaded="MetroWindow_Loaded">
+        Title="1C Services Control" Height="479.131" Width="880.316" Loaded="MetroWindow_Loaded" ShowIconOnTitleBar="True" Icon="ico.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,96 +14,87 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button x:Name="GitHub" Click="GitHub_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_social_github_octocat_solid}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid Margin="0,0,2,6">
-        <Button
-        Style="{DynamicResource MetroCircleButtonStyle}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" Click="Button_Click">
-            <Rectangle Width="20"
-                Height="20"
-                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
-            <Button.ToolTip>
-                <TextBlock>Добавить новый сервер</TextBlock>
-            </Button.ToolTip>
-        </Button>
-        <TabControl x:Name="MainTabControl" HorizontalContentAlignment="Center" TabStripPlacement="Left" Margin="0,40,10,10">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock>                            
-                    <TextBlock Text="{Binding name}"/>
-                    </TextBlock>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
+        <Grid>
+            <Button x:Name="AddNewServer" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" Click="Button_Click" Margin="220,0,0,0" Panel.ZIndex="1">
+                <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Button.ToolTip>
+                    <TextBlock>Добавить новый сервер</TextBlock>
+                </Button.ToolTip>
+            </Button>
+            <Button x:Name="EditServer" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" Margin="265,0,0,0" Panel.ZIndex="1" Click="EditServer_Click">
+                <Rectangle Width="17" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Button.ToolTip>
+                    <TextBlock>Изменить выбранный сервер</TextBlock>
+                </Button.ToolTip>
+            </Button>
+            <Button x:Name="DeleteServer" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" Margin="310,0,0,0" Panel.ZIndex="1" Click="DeleteServer_Click" >
+                <Rectangle Width="20" Height="5" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_minus}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Button.ToolTip>
+                    <TextBlock>Удалить выбранный сервер</TextBlock>
+                </Button.ToolTip>
+            </Button>
+            <TabControl x:Name="RootTabControl" HorizontalAlignment="Left" Width="350">
+                <TabItem Header="Windows">
                     <Grid>
-                        <Grid>
-                            <Button
-                            Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" Click="Button_Click" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                                <Rectangle Width="20"
-                                    Height="20"
-                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                    <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}" />
-                                    </Rectangle.OpacityMask>
-                                </Rectangle>
-                                <Button.ToolTip>
-                                    <TextBlock>Удалить выбранный сервер</TextBlock>
-                                </Button.ToolTip>
-                            </Button>
-                            <Grid IsEnabled="{Binding isEnabaleComandButon}">
-                                <Button
-                            Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" Click="Button_Click" Margin="135,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                                    <Rectangle Width="20"
-                                    Height="4"
-                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_minus}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Button.ToolTip>
-                                        <TextBlock>Удалить службу</TextBlock>
-                                    </Button.ToolTip>
-                                </Button>
-                                <Button
-                            Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" Click="Button_Click" Margin="180,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                                    <Rectangle Width="20"
-                                    Height="20"
-                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                    <Button.ToolTip>
-                                        <TextBlock>Добавить новую службу</TextBlock>
-                                    </Button.ToolTip>
-                                </Button>
-                            </Grid>
-                            <Controls:ProgressRing IsActive="{Binding isActiveProgressRing}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                        <Grid Visibility="{Binding servicesVisibility}">
-                            <TabControl ItemsSource="{Binding Path=services}"  HorizontalContentAlignment="Center" TabStripPlacement="Left" Margin="0, 40, 10, 10">
-                                <TabControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock>                            
-                                        <TextBlock Text="{Binding name}"/>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </TabControl.ItemTemplate>
-                                <TabControl.ContentTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Controls:ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </TabControl.ContentTemplate>
-                            </TabControl>
-                        </Grid>
+                        <TabControl x:Name="WindowsTabControl" HorizontalContentAlignment="Center" TabStripPlacement="Left" MouseDoubleClick="TabControl_MouseDoubleClick">
+                            <TabControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}"/>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                            <TabControl.ContentTemplate>
+                                <DataTemplate>
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </TabControl>
                     </Grid>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+                </TabItem>
+                <TabItem Header="Linux" Margin="13,0,-13,0">
+                    <Grid>
+                        <TabControl x:Name="LinuxTabControl" HorizontalContentAlignment="Center" TabStripPlacement="Left" Grid.ColumnSpan="2" MouseDoubleClick="TabControl_MouseDoubleClick">
+                            <TabControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}"/>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                            <TabControl.ContentTemplate>
+                                <DataTemplate>
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </TabControl>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <Grid Margin="355,10,10,0">
+                <Controls:ProgressRing Foreground="{DynamicResource AccentColorBrush}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="213,180,214,184" Height="68" Width="78" />
+            </Grid>
+        </Grid>
+
     </Grid>
 </Controls:MetroWindow>

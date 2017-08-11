@@ -20,49 +20,184 @@ namespace _1CServicesControl
             InitializeComponent();
 
             config = new Config();
+
+            WindowsTabControl.SelectionChanged += SelectionChanged;
+            LinuxTabControl.SelectionChanged += SelectionChanged;
+        }
+
+        private void SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+            var server = ((object[])e.AddedItems)[0];
+            
+            if (server is WindowsServer)
+            {
+                ((WindowsServer)server).GetServices();
+            }
+            else
+            {
+                ((LinuxServer)server).GetServices();
+            }
+            
+
+            int t = 3;
+
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            MainTabControl.ItemsSource = config.servers;
-            MainTabControl.SelectedIndex = 0;
+            WindowsTabControl.ItemsSource = config.windowsSrvs;
+            LinuxTabControl.ItemsSource = config.linuxSrvs;
         }
 
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    SrvForm newSrvForm =  new SrvForm();
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SrvForm newSrvForm = new SrvForm();
 
-        //    newSrvForm.Show();  
-        //    newSrvForm.Closed += newSrvForm_Closed;
-        //}
+            newSrvForm.Show();
+            newSrvForm.Closed += newSrvForm_Closed;
+        }
 
-        //public void newSrvForm_Closed(object sender, EventArgs e)
-        //{
-        //    SrvForm srvForm = (SrvForm)sender;
+        public void newSrvForm_Closed(object sender, EventArgs e)
+        {
+            SrvForm srvForm = (SrvForm)sender;
+
+            if (!srvForm.saveData)
+            {
+                return;
+            }
+
+            var name = srvForm.NameSrv.Text;
+            var adress = srvForm.AddressSrv.Text;
+            var isDomainAuth = (bool)srvForm.IsDomainAuth.IsChecked;
+            var login = srvForm.LoginSrv.Text;
+            var pass = srvForm.PassSrv.Password;
+
+            if ((Boolean)srvForm.srvType.IsChecked)
+            {
+                LinuxServer newSrv = new LinuxServer(name, adress, isDomainAuth, login, pass);
+                config.AddNewServer(newSrv);
+            }
+            else
+            {
+                WindowsServer newSrv = new WindowsServer(name, adress, isDomainAuth, login, pass);
+                config.AddNewServer(newSrv);    
+            }
+
+            RefreshTabComtrols();
+
+        }
+
+        private void EditServer_Click(object sender, RoutedEventArgs e)
+        {
+
+            Server selectedSrv;
+
+            if (RootTabControl.SelectedIndex == 0)
+            {
+                selectedSrv = (Server)WindowsTabControl.SelectedItem;
+            }
+            else
+            {
+                selectedSrv = (Server)LinuxTabControl.SelectedItem;
+            }
+
+            if (selectedSrv == null) { return; }
+
+            SrvForm form = new SrvForm(selectedSrv);
+            form.Closed += formChange_Closed;
+            form.Show();
+
+        }
+
+        public void formChange_Closed(object sender, EventArgs e)
+        {
+            SrvForm srvForm = (SrvForm)sender;
+
+            if (!srvForm.saveData)
+            {
+                RefreshTabComtrols();
+                return;
+            }
+
+            srvForm.oldSrv.name = srvForm.srv.name;
+            srvForm.oldSrv.address = srvForm.srv.address;
+            srvForm.oldSrv.isDomainAuth = srvForm.srv.isDomainAuth;
+            srvForm.oldSrv.login = srvForm.srv.login;
+            srvForm.oldSrv.pass = srvForm.srv.pass;
+
+            if (srvForm.PassSrv.Password != "..!..")
+            {
+                srvForm.oldSrv.pass = srvForm.PassSrv.Password;
+            }
             
-        //    if (srvForm.saveData)
-        //    {
-        //        //var name = srvForm.NameSrv.Text;
-        //        //var adress = srvForm.AddressSrv.Text;
-        //        //var isDomainAuth = (bool)srvForm.IsDomainAuth.IsChecked;
-        //        //var login = srvForm.LoginSrv.Text;
-        //        //var pass = srvForm.PassSrv.Password;
+            config.SaveConf();
+            RefreshTabComtrols();
 
-        //        //Server srv = new Server(name, adress, isDomainAuth, login, pass);
+        }
 
-        //        //listSrv.Add(srv);
+        public void RefreshTabComtrols()
+        {
+            WindowsTabControl.Items.Refresh();
+            LinuxTabControl.Items.Refresh();
+        }
 
-        //        //srv.isActiveProgressRing = true;
-        //        //srv.servicesVisibility = Visibility.Hidden;
-        //        //srv.isEnabaleComandButon = true;
+        private void GitHub_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/WizaXxX/1CServicesControl");
+        }
 
-        //        //MainTabControl.Items.Refresh();
+        private void DeleteServer_Click(object sender, RoutedEventArgs e)
+        {
+            Server selectedSrv;
+            Boolean win = true;
 
-        //        //Task.Run(() => getServices(srv));
-        //        //int t = 1;
-        //    }
-            
-        //}
+            if (RootTabControl.SelectedIndex == 0)
+            {
+                selectedSrv = (Server)WindowsTabControl.SelectedItem;
+                win = true;
+            }
+            else
+            {
+                selectedSrv = (Server)LinuxTabControl.SelectedItem;
+                win = false;
+            }
 
+            if (selectedSrv == null) { return; }
+
+            SimpleForm form = new SimpleForm();
+            form.Title = "Удаление сервера";
+            form.Text.Content = "Удалить сервер \"" + selectedSrv.name + "\" ?";
+
+            form.ShowDialog();
+
+            if (!form.result)
+            {
+                return;
+            }
+
+            if (win)
+            {
+                config.DeleteServer((WindowsServer)WindowsTabControl.SelectedItem);
+            }
+            else
+            {
+                config.DeleteServer((LinuxServer)LinuxTabControl.SelectedItem);
+            }
+
+            RefreshTabComtrols();
+
+        }
+
+        private void TabControl_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != System.Windows.Input.MouseButton.Left)
+            {
+                return;
+            }
+
+            EditServer_Click(sender, null);
+
+        }
     }
 }

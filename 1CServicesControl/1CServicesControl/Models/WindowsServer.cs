@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace _1CServicesControl.Models
 {
-    class WindowsServer : Server
+    public class WindowsServer : Server
     {
         public WindowsServer(string name, string address, bool isDomainAuth, string login, string pass) : base(name, address, isDomainAuth, login, pass)
         {
 
         }
 
-        public override List<Service1C> GetServices()
+        public override void GetServices()
         {
-            var list = new List<Service1C>();
+            services = new List<Service1C>();
 
             ManagementScope scope = GetScope(this);
 
@@ -28,10 +28,8 @@ namespace _1CServicesControl.Models
 
             foreach (ManagementObject sc in queryCollection)
             {
-                list.Add(new Service1C(sc));
+                services.Add(new Service1C(sc));
             }
-
-            return list;
 
         }
 

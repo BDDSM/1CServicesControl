@@ -1,0 +1,16 @@
+﻿<Controls:MetroWindow x:Class="_1CServicesControl.SimpleForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:_1CServicesControl"
+        mc:Ignorable="d"
+        Title="SimpleForm" Height="129.326" Width="385.337" ShowIconOnTitleBar="True" Icon="ico.ico">
+    <Grid>
+        <Button x:Name="YesButton" Content="Да" Margin="10,0,0,10" Click="YesButton_Click" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="92"/>
+        <Button x:Name="NoButton" Content="Нет" Margin="0,0,10,10" Click="NoButton_Click" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="103"/>
+        <Label x:Name="Text" Content="Label" HorizontalAlignment="Center" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.118,0.303" Height="34" Width="356" HorizontalContentAlignment="Center"/>
+
+    </Grid>
+</Controls:MetroWindow>

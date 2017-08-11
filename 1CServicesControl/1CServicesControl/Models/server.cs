@@ -14,6 +14,8 @@ namespace _1CServicesControl.Models
         public String login { get; set; }
         public String pass { get; set; }
         public Boolean isDomainAuth { get; set; }
+        public virtual List<Service1C> services { get; set; }
+        
 
         public Server(String name, String address, Boolean isDomainAuth, String login, String pass)
         {
@@ -24,9 +26,27 @@ namespace _1CServicesControl.Models
             this.isDomainAuth = isDomainAuth;
         }
 
-        public virtual List<Service1C> GetServices()
+        public Server(Server srv)
         {
-            return new List<Service1C>();
+            this.name = srv.name;
+            this.address = srv.address;
+            this.login = srv.login;
+            this.pass = srv.pass;
+            this.isDomainAuth = srv.isDomainAuth;
+        }
+
+        public Server()
+        {
+            this.name = "";
+            this.address = "";
+            this.login = "";
+            this.pass = "";
+            this.isDomainAuth = false;
+        }
+
+        public virtual void GetServices()
+        {
+            
         }
 
     }

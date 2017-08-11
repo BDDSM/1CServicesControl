@@ -69,6 +69,9 @@
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Service1C.cs" />
     <Compile Include="Models\WindowsServer.cs" />
+    <Compile Include="SimpleForm.xaml.cs">
+      <DependentUpon>SimpleForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SrvForm.xaml.cs">
       <DependentUpon>SrvForm.xaml</DependentUpon>
     </Compile>
@@ -91,6 +94,10 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SimpleForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SrvForm.xaml">
       <SubType>Designer</SubType>
@@ -130,6 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ico.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
