@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System.Management;
@@ -13,56 +14,46 @@ namespace _1CServicesControl
 
     public partial class MainWindow : MetroWindow
     {
-        public Config config;
+        public Config Config;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            config = new Config();
-
+            Config = new Config();
+            
             WindowsTabControl.SelectionChanged += SelectionChanged;
             LinuxTabControl.SelectionChanged += SelectionChanged;
+            Ring.IsActive = false;
         }
 
-        private void SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private async void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            var server = ((object[])e.AddedItems)[0];
+            Server server = (Server)((object[])e.AddedItems)[0];
+            String title = $"Ошибка подключения к серверу: \n \"{ server.Name}\"";
             
-            if (server is WindowsServer)
-            {
-                ((WindowsServer)server).GetServices();
-            }
-            else
-            {
-                ((LinuxServer)server).GetServices();
-            }
-            
+            Ring.IsActive = true;
+            String textError = await server.GetServicesAsync();
+            Ring.IsActive = false;
 
-            int t = 3;
+            if (String.IsNullOrEmpty(textError)) { return; }
 
+            await this.ShowMessageAsync(title, textError);
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            WindowsTabControl.ItemsSource = config.windowsSrvs;
-            LinuxTabControl.ItemsSource = config.linuxSrvs;
+            WindowsTabControl.ItemsSource = Config.WindowsSrvs;
+            LinuxTabControl.ItemsSource = Config.LinuxSrvs;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SrvForm newSrvForm = new SrvForm();
+            SrvForm srvForm = new SrvForm();
 
-            newSrvForm.Show();
-            newSrvForm.Closed += newSrvForm_Closed;
-        }
+            srvForm.ShowDialog();
 
-        public void newSrvForm_Closed(object sender, EventArgs e)
-        {
-            SrvForm srvForm = (SrvForm)sender;
-
-            if (!srvForm.saveData)
+            if (!srvForm.SaveData)
             {
                 return;
             }
@@ -76,12 +67,12 @@ namespace _1CServicesControl
             if ((Boolean)srvForm.srvType.IsChecked)
             {
                 LinuxServer newSrv = new LinuxServer(name, adress, isDomainAuth, login, pass);
-                config.AddNewServer(newSrv);
+                Config.AddNewServer(newSrv);
             }
             else
             {
                 WindowsServer newSrv = new WindowsServer(name, adress, isDomainAuth, login, pass);
-                config.AddNewServer(newSrv);    
+                Config.AddNewServer(newSrv);
             }
 
             RefreshTabComtrols();
@@ -91,47 +82,32 @@ namespace _1CServicesControl
         private void EditServer_Click(object sender, RoutedEventArgs e)
         {
 
-            Server selectedSrv;
-
-            if (RootTabControl.SelectedIndex == 0)
-            {
-                selectedSrv = (Server)WindowsTabControl.SelectedItem;
-            }
-            else
-            {
-                selectedSrv = (Server)LinuxTabControl.SelectedItem;
-            }
+            var selectedSrv = RootTabControl.SelectedIndex == 0
+                        ? WindowsTabControl.SelectedItem : LinuxTabControl.SelectedItem;
 
             if (selectedSrv == null) { return; }
 
-            SrvForm form = new SrvForm(selectedSrv);
-            form.Closed += formChange_Closed;
-            form.Show();
+            SrvForm srvForm = new SrvForm((Server)selectedSrv);
+            srvForm.ShowDialog();
 
-        }
-
-        public void formChange_Closed(object sender, EventArgs e)
-        {
-            SrvForm srvForm = (SrvForm)sender;
-
-            if (!srvForm.saveData)
+            if (!srvForm.SaveData)
             {
                 RefreshTabComtrols();
                 return;
             }
 
-            srvForm.oldSrv.name = srvForm.srv.name;
-            srvForm.oldSrv.address = srvForm.srv.address;
-            srvForm.oldSrv.isDomainAuth = srvForm.srv.isDomainAuth;
-            srvForm.oldSrv.login = srvForm.srv.login;
-            srvForm.oldSrv.pass = srvForm.srv.pass;
+            srvForm.OldSrv.Name = srvForm.Srv.Name;
+            srvForm.OldSrv.Address = srvForm.Srv.Address;
+            srvForm.OldSrv.IsDomainAuth = srvForm.Srv.IsDomainAuth;
+            srvForm.OldSrv.Login = srvForm.Srv.Login;
+            srvForm.OldSrv.Pass = srvForm.Srv.Pass;
 
             if (srvForm.PassSrv.Password != "..!..")
             {
-                srvForm.oldSrv.pass = srvForm.PassSrv.Password;
+                srvForm.OldSrv.Pass = srvForm.PassSrv.Password;
             }
-            
-            config.SaveConf();
+
+            Config.SaveConf();
             RefreshTabComtrols();
 
         }
@@ -149,40 +125,28 @@ namespace _1CServicesControl
 
         private void DeleteServer_Click(object sender, RoutedEventArgs e)
         {
-            Server selectedSrv;
-            Boolean win = true;
 
-            if (RootTabControl.SelectedIndex == 0)
-            {
-                selectedSrv = (Server)WindowsTabControl.SelectedItem;
-                win = true;
-            }
-            else
-            {
-                selectedSrv = (Server)LinuxTabControl.SelectedItem;
-                win = false;
-            }
+            var selectedSrv = RootTabControl.SelectedIndex == 0
+                        ? WindowsTabControl.SelectedItem : LinuxTabControl.SelectedItem;
+
 
             if (selectedSrv == null) { return; }
 
-            SimpleForm form = new SimpleForm();
-            form.Title = "Удаление сервера";
-            form.Text.Content = "Удалить сервер \"" + selectedSrv.name + "\" ?";
-
+            SimpleForm form = new SimpleForm((Server)selectedSrv);
             form.ShowDialog();
 
-            if (!form.result)
+            if (!form.Result)
             {
                 return;
             }
 
-            if (win)
+            if (selectedSrv is WindowsServer)
             {
-                config.DeleteServer((WindowsServer)WindowsTabControl.SelectedItem);
+                Config.DeleteServer((WindowsServer)WindowsTabControl.SelectedItem);
             }
             else
             {
-                config.DeleteServer((LinuxServer)LinuxTabControl.SelectedItem);
+                Config.DeleteServer((LinuxServer)LinuxTabControl.SelectedItem);
             }
 
             RefreshTabComtrols();

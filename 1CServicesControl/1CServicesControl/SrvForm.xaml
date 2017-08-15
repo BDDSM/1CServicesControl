@@ -6,16 +6,16 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
-        Title="{Binding Path=name}" Height="276.644" Width="551.579" Loaded="MetroWindow_Loaded" ShowIconOnTitleBar="True" Icon="ico.ico">
+        Title="{Binding Path=Name}" Height="276.644" Width="551.579" Loaded="MetroWindow_Loaded" ShowIconOnTitleBar="True" Icon="ico.ico">
     <Grid>
         <Button Content="Сохранить" IsDefault="True" Margin="10,0,0,10" HorizontalAlignment="Left" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click_1"/>
         <Button Content="Закрыть" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom" Click="Button_Click"/>
         <Label Content="Наименование сервера :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="NameSrv" Text="{Binding Path=name}" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,10,10,0" Cursor=""/>
+        <TextBox x:Name="NameSrv" Text="{Binding Path=Name}" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,10,10,0" Cursor=""/>
         <Label Content="Адрес сервера :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,0,0" Width="147"/>
-        <TextBox x:Name="AddressSrv" Text="{Binding Path=address}" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,42,10,0"/>
+        <TextBox x:Name="AddressSrv" Text="{Binding Path=Address}" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="162,42,10,0"/>
         <Controls:ToggleSwitch x:Name="srvType" OnLabel="Linux" OffLabel="Windows" Margin="10,72,0,0" HorizontalAlignment="Left" Width="147" Height="37" VerticalAlignment="Top" />
-        <CheckBox x:Name="IsDomainAuth" IsChecked="{Binding Path=isDomainAuth}" Content="Аутентификация операционной системы" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="272" Click="boolIsDomainAuth_Click"/>
+        <CheckBox x:Name="IsDomainAuth" IsChecked="{Binding Path=IsDomainAuth}" Content="Аутентификация операционной системы" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="272" Click="boolIsDomainAuth_Click"/>
         <Grid x:Name="AuthSettingsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="191*"/>
@@ -23,7 +23,7 @@
             </Grid.ColumnDefinitions>
             <Label Content="Пароль :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,168,0,0"/>
             <Label Content="Логин :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,137,0,0"/>
-            <TextBox x:Name="LoginSrv" Text="{Binding Path=login}" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,138,10,0" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="LoginSrv" Text="{Binding Path=Login}" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,138,10,0" Grid.ColumnSpan="2"/>
             <PasswordBox x:Name="PassSrv" Margin="72,169,10,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
             <Button x:Name="Delete" Content="Удалить" HorizontalAlignment="Left" Margin="94,0,0,10" Width="86" Background="Red" Click="Delete_Click" Height="27" VerticalAlignment="Bottom"/>
         </Grid>

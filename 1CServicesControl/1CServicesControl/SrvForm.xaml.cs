@@ -15,25 +15,29 @@ namespace _1CServicesControl
 
     public partial class SrvForm : MetroWindow
     {
+        public bool SaveData = false;
+        public bool DeleteThisServer = false;
+        public Server Srv;
+        public Server OldSrv;
+        MainWindow mainWindow = ((MainWindow)Application.Current.MainWindow);
 
-        public bool saveData = false;
-        public bool deleteThisServer = false;
-        public Server srv;
-        public Server oldSrv;
+        static String textErrorAuth = "Значение логин и пароль должны быть заполнены";
+        static String textErrorName = "Значение наименование и адрес сервера должны быть заполнены";
+
 
         public SrvForm()
         {
             InitializeComponent();
             
-            if (((MainWindow)Application.Current.MainWindow).RootTabControl.SelectedIndex == 1)
+            if (mainWindow.RootTabControl.SelectedIndex == 1)
             {
                 srvType.IsChecked = true;
             }
 
             Delete.Visibility = Visibility.Hidden;
 
-            srv = new Server();
-            this.DataContext = this.srv;
+            Srv = new Server();
+            this.DataContext = this.Srv;
             this.Title = "Новый сервер";
         }
 
@@ -41,14 +45,14 @@ namespace _1CServicesControl
         {
             InitializeComponent();
 
-            if (((MainWindow)Application.Current.MainWindow).RootTabControl.SelectedIndex == 1)
+            if (mainWindow.RootTabControl.SelectedIndex == 1)
             {
                 srvType.IsChecked = true;
             }
 
-            this.srv = new Server(srv);
-            this.DataContext = this.srv;
-            this.oldSrv = srv;
+            this.Srv = new Server(srv);
+            this.DataContext = this.Srv;
+            this.OldSrv = srv;
 
             PassSrv.Password = "..!..";
             srvType.IsEnabled = false;
@@ -74,22 +78,24 @@ namespace _1CServicesControl
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (NameSrv.Text == "" || AddressSrv.Text == "")
+            String title = "Ошибка сохранения сервера";
+            
+            if (String.IsNullOrEmpty(NameSrv.Text) || String.IsNullOrEmpty(AddressSrv.Text))
             {
-                await this.ShowMessageAsync("Ошибка сохранения сервера", "Значение наименование и адрес сервера должны быть заполнены");
+                await this.ShowMessageAsync(title, textErrorName);
                 return;
             }
 
             if (IsDomainAuth.IsChecked != true)
             {
-                if (LoginSrv.Text == "" || PassSrv.Password == "")
+                if (String.IsNullOrEmpty(LoginSrv.Text) || String.IsNullOrEmpty(PassSrv.Password))
                 {
-                    await this.ShowMessageAsync("Ошибка сохранения сервера", "Значение логин и пароль должны быть заполнены");
+                    await this.ShowMessageAsync(title, textErrorAuth);
                     return;
                 }
             }
 
-            saveData = true;
+            SaveData = true;
             this.Close();
         }
 
@@ -100,24 +106,21 @@ namespace _1CServicesControl
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            SimpleForm form = new SimpleForm();
-            form.Title = "Удаление сервера";
-            form.Text.Content = "Удалить сервер \"" + srv.name + "\" ?";
-
+            SimpleForm form = new SimpleForm(Srv);
             form.ShowDialog();
 
-            if (!form.result)
+            if (!form.Result)
             {
                 return;
             }
 
             if ((Boolean)srvType.IsChecked)
             {
-                ((_1CServicesControl.MainWindow)Application.Current.MainWindow).config.DeleteServer((LinuxServer)this.oldSrv);
+                mainWindow.Config.DeleteServer((LinuxServer)this.OldSrv);
             }
             else
             {
-                ((_1CServicesControl.MainWindow)Application.Current.MainWindow).config.DeleteServer((WindowsServer)this.oldSrv);
+                mainWindow.Config.DeleteServer((WindowsServer)this.OldSrv);
             }
 
             this.Close();

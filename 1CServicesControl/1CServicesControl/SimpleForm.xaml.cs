@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls;
+using _1CServicesControl.Models;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -19,23 +20,32 @@ namespace _1CServicesControl
     public partial class SimpleForm : MetroWindow
     {
 
-        public Boolean result = false;
+        public Boolean Result = false;
 
         public SimpleForm()
         {
             InitializeComponent();
         }
 
+        public SimpleForm(Server srv)
+        {
+            InitializeComponent();
+
+            Title = "Удаление сервера";
+            Text.Content = $"Удалить сервер \"{ srv.Name}\" ?";
+        }
+
         private void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            result = true;
+            Result = true;
             this.Close();
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
         {
-            result = false;
+            Result = false;
             this.Close();
         }
+
     }
 }

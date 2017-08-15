@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Management;
+using System.Windows;
+using MahApps.Metro.Controls;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,16 +11,28 @@ namespace _1CServicesControl.Models
 {
     public class WindowsServer : Server
     {
-        public WindowsServer(string name, string address, bool isDomainAuth, string login, string pass) : base(name, address, isDomainAuth, login, pass)
+        public WindowsServer(string name, string address, bool isDomainAuth, string login, string pass) 
+            : base(name, address, isDomainAuth, login, pass)
         {
 
         }
 
-        public override void GetServices()
+        public override String GetServices()
         {
-            services = new List<Service1C>();
+            Services = new List<Service1C>();
+            ManagementScope scope = null;
 
-            ManagementScope scope = GetScope(this);
+            try
+            {
+                scope = GetScope(this);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
+
+            if (scope == null) { return ""; }
 
             ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_Service WHERE PathName LIKE \"%ragent.exe%\"");
 
@@ -28,8 +42,10 @@ namespace _1CServicesControl.Models
 
             foreach (ManagementObject sc in queryCollection)
             {
-                services.Add(new Service1C(sc));
+                Services.Add(new Service1C(sc));
             }
+
+            return "";
 
         }
 
@@ -38,22 +54,15 @@ namespace _1CServicesControl.Models
             ConnectionOptions options = new ConnectionOptions();
             options.Impersonation = ImpersonationLevel.Impersonate;
 
-            if (!srv.isDomainAuth)
+            if (!srv.IsDomainAuth)
             {
-                options.Username = srv.login;
-                options.Password = srv.pass;
+                options.Username = srv.Login;
+                options.Password = srv.Pass;
             }
 
-            ManagementScope scope = new ManagementScope("\\\\" + srv.address + "\\root\\cimv2", options);
+            ManagementScope scope = new ManagementScope("\\\\" + srv.Address + "\\root\\cimv2", options);
+            scope.Connect();
 
-            try
-            {
-                scope.Connect();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
 
             return scope;
         }

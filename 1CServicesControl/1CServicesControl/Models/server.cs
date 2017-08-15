@@ -1,52 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace _1CServicesControl.Models
 {
     public class Server
     {
-        public String name { get; set; }
-        public String address { get; set; }
-        public String domain { get; set; }
-        public String login { get; set; }
-        public String pass { get; set; }
-        public Boolean isDomainAuth { get; set; }
-        public virtual List<Service1C> services { get; set; }
+        public String Name { get; set; }
+        public String Address { get; set; }
+        public String Domain { get; set; }
+        public String Login { get; set; }
+        public String Pass { get; set; }
+        public Boolean IsDomainAuth { get; set; }
+        public virtual List<Service1C> Services { get; set; }
+        public virtual bool IsActiveRing {get; set;}
         
 
         public Server(String name, String address, Boolean isDomainAuth, String login, String pass)
         {
-            this.name = name;
-            this.address = address;
-            this.login = login;
-            this.pass = pass;
-            this.isDomainAuth = isDomainAuth;
+            this.Name = name;
+            this.Address = address;
+            this.Login = login;
+            this.Pass = pass;
+            this.IsDomainAuth = isDomainAuth;
         }
 
         public Server(Server srv)
         {
-            this.name = srv.name;
-            this.address = srv.address;
-            this.login = srv.login;
-            this.pass = srv.pass;
-            this.isDomainAuth = srv.isDomainAuth;
+            this.Name = srv.Name;
+            this.Address = srv.Address;
+            this.Login = srv.Login;
+            this.Pass = srv.Pass;
+            this.IsDomainAuth = srv.IsDomainAuth;
         }
 
         public Server()
         {
-            this.name = "";
-            this.address = "";
-            this.login = "";
-            this.pass = "";
-            this.isDomainAuth = false;
+            this.Name = "";
+            this.Address = "";
+            this.Login = "";
+            this.Pass = "";
+            this.IsDomainAuth = false;
         }
 
-        public virtual void GetServices()
+        public virtual String GetServices()
         {
-            
+            return "";
+        }
+
+        public Task<String> GetServicesAsync()
+        {
+            return Task.Run(() => 
+            {
+                return GetServices();
+            });
         }
 
     }

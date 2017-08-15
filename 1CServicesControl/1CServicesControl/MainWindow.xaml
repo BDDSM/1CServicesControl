@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:_1CServicesControl"
         mc:Ignorable="d"
-        Title="1C Services Control" Height="479.131" Width="880.316" Loaded="MetroWindow_Loaded" ShowIconOnTitleBar="True" Icon="ico.ico">
+        Title="1C Services Control" Height="479.131" Width="880.316" Loaded="MetroWindow_Loaded" ShowIconOnTitleBar="True" Icon="ico.ico" Name="mainWindow">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -65,7 +65,7 @@
                         <TabControl x:Name="WindowsTabControl" HorizontalContentAlignment="Center" TabStripPlacement="Left" MouseDoubleClick="TabControl_MouseDoubleClick">
                             <TabControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding name}"/>
+                                    <TextBlock Text="{Binding Name}"/>
                                 </DataTemplate>
                             </TabControl.ItemTemplate>
                             <TabControl.ContentTemplate>
@@ -80,7 +80,7 @@
                         <TabControl x:Name="LinuxTabControl" HorizontalContentAlignment="Center" TabStripPlacement="Left" Grid.ColumnSpan="2" MouseDoubleClick="TabControl_MouseDoubleClick">
                             <TabControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding name}"/>
+                                    <TextBlock Text="{Binding Name}"/>
                                 </DataTemplate>
                             </TabControl.ItemTemplate>
                             <TabControl.ContentTemplate>
@@ -92,7 +92,7 @@
                 </TabItem>
             </TabControl>
             <Grid Margin="355,10,10,0">
-                <Controls:ProgressRing Foreground="{DynamicResource AccentColorBrush}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="213,180,214,184" Height="68" Width="78" />
+                <Controls:ProgressRing x:Name="Ring" Foreground="{DynamicResource AccentColorBrush}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="213,180,214,184" Height="68" Width="78" />
             </Grid>
         </Grid>
 
