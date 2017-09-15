@@ -15,6 +15,7 @@ namespace _1CServicesControl
     public partial class MainWindow : MetroWindow
     {
         public Config Config;
+        List<Server> serversOnProgress;
 
         public MainWindow()
         {
@@ -25,18 +26,34 @@ namespace _1CServicesControl
             WindowsTabControl.SelectionChanged += SelectionChanged;
             LinuxTabControl.SelectionChanged += SelectionChanged;
             Ring.IsActive = false;
+
+            serversOnProgress = new List<Server>();
         }
 
         private async void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Server server = (Server)((object[])e.AddedItems)[0];
-            String title = $"Ошибка подключения к серверу: \n \"{ server.Name}\"";
-            
+            string title = $"Ошибка подключения к серверу: \n \"{ server.Name}\"";
+
+            var findingItem = serversOnProgress.Find(x => x == server);
+
+            if (findingItem == null)
+            {
+                serversOnProgress.Add(server);
+            }
+            else
+            {
+                Ring.IsActive = true;
+                return;
+            }
+
             Ring.IsActive = true;
-            String textError = await server.GetServicesAsync();
+            string textError = await server.GetServicesAsync();
             Ring.IsActive = false;
 
-            if (String.IsNullOrEmpty(textError)) { return; }
+            serversOnProgress.Remove(server);
+
+            if (string.IsNullOrEmpty(textError)) { return; }
 
             await this.ShowMessageAsync(title, textError);
         }
@@ -64,7 +81,7 @@ namespace _1CServicesControl
             var login = srvForm.LoginSrv.Text;
             var pass = srvForm.PassSrv.Password;
 
-            if ((Boolean)srvForm.srvType.IsChecked)
+            if ((bool)srvForm.srvType.IsChecked)
             {
                 LinuxServer newSrv = new LinuxServer(name, adress, isDomainAuth, login, pass);
                 Config.AddNewServer(newSrv);
@@ -112,7 +129,7 @@ namespace _1CServicesControl
 
         }
 
-        public void RefreshTabComtrols()
+        private void RefreshTabComtrols()
         {
             WindowsTabControl.Items.Refresh();
             LinuxTabControl.Items.Refresh();

@@ -17,7 +17,7 @@ namespace _1CServicesControl.Models
 
         }
 
-        public override String GetServices()
+        public override string GetServices()
         {
             Services = new List<Service1C>();
             ManagementScope scope = null;
